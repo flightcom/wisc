@@ -45,7 +45,18 @@ public class WifiAdapter extends BaseAdapter {
         String bssid = hm.get("bssid");
         String capabilities = hm.get("capabilities");
         Float lvl = Float.parseFloat(hm.get("level"));
-
+        String sec = null;
+        
+        if(capabilities.contains("WPA2")){
+        	sec = "WPA2";
+        } else if (capabilities.contains("WPA")){
+        	sec = "WPA";
+        } else if (capabilities.contains("WEP")){
+        	sec = "WEP";
+        } else {
+        	sec = capabilities;
+        }
+        
         TextView textView1 = (TextView) view.findViewById(R.id.textView1);
         textView1.setText(ssid);
 
@@ -53,7 +64,7 @@ public class WifiAdapter extends BaseAdapter {
         textView2.setText(bssid);
 
         TextView textView3 = (TextView) view.findViewById(R.id.textView3);
-        textView3.setText(capabilities);
+        textView3.setText(sec);
 
         TextView text1 = (TextView) view.findViewById(R.id.text1);
         text1.setLayoutParams(new TableLayout.LayoutParams(0, LayoutParams.MATCH_PARENT, 100-lvl));
