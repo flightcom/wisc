@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,37 +70,40 @@ public class MainActivity extends Activity {
                 WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
         mainWifi.startScan();
         
-        doInback();
+        checkNetworks();
         
     }
 
-    public void doInback()
+    public void checkNetworks()
     {
-        handler.postDelayed(new Runnable() {
 
-            @Override
-            public void run()
-            {
-                // TODO Auto-generated method stub
-                mainWifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+        // TODO Auto-generated method stub
+        mainWifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
 
-                receiverWifi = new WifiReceiver();
-                registerReceiver(receiverWifi, new IntentFilter(
-                        WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
-                mainWifi.startScan();
-                doInback();
-            }
-        }, 200);
+        receiverWifi = new WifiReceiver();
+        registerReceiver(receiverWifi, new IntentFilter(
+                WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+        mainWifi.startScan();
+
 
     }
     public boolean onCreateOptionsMenu(Menu menu) {
-        menu.add(0, 0, 0, "Refresh");
-        return super.onCreateOptionsMenu(menu);
+    	super.onCreateOptionsMenu(menu);
+    	MenuInflater mInflater = getMenuInflater();
+    	mInflater.inflate(R.menu.main, menu);
+    	return true;
     }
 
     public boolean onMenuItemSelected(int featureId, MenuItem item) {
-        mainWifi.startScan();
-
+    	
+    	switch(item.getItemId()){
+	    	case R.id.itemRefresh:
+	    		checkNetworks();
+	    		return true;
+	    	case R.id.itemTest:
+	    		Toast.makeText(MainActivity.this, "This is a test", Toast.LENGTH_SHORT).show();
+	    		return true;
+    	}
         return super.onMenuItemSelected(featureId, item);
     }
 

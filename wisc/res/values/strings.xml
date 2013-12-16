@@ -8,4 +8,8 @@
     <string name="text1">Text1</string>
     <string name="text2">Text2</string>
     
+    <!-- Menu -->
+    <string name="refresh">Refresh</string>
+    <string name="test">Test</string>
+    
 </resources>
